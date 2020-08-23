@@ -11,6 +11,7 @@
 
 package me.pokerman981.DiscordBotSpigot;
 
+import me.pokerman981.DiscordBotSpigot.listeners.DeluxeChatListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.apache.commons.lang3.Validate;
@@ -33,6 +34,9 @@ public class Main extends JavaPlugin {
         loadConfigurationFiles();
         Bukkit.getLogger().info("Loaded configuration files.");
 
+        registerListeners();
+        Bukkit.getLogger().info("Registered Listeners.");
+
         try {
             loadDiscordBot();
         } catch (LoginException e) {
@@ -47,8 +51,10 @@ public class Main extends JavaPlugin {
         Validate.notNull(token);
 
         Main.jda = JDABuilder.createDefault(token).build();
+    }
 
-
+    private void registerListeners() {
+        Bukkit.getServer().getPluginManager().registerEvents(new DeluxeChatListener(), instance);
     }
 
     private void loadConfigurationFiles() {
