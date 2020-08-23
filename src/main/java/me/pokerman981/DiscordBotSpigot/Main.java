@@ -4,10 +4,12 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/23/20, 1:00 PM
+ * File Last Modified: 8/23/20, 1:08 PM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
+
+package me.pokerman981.DiscordBotSpigot;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
