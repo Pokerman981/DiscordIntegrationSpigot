@@ -3,3 +3,8 @@ version: 1.0.0
 author: Pokerman981
 main: me.pokerman981.DiscordBotSpigot.Main
 depend: [DeluxeChat]
+
+commands:
+  discord:
+    description: Show the discord commands
+    useage: /discord

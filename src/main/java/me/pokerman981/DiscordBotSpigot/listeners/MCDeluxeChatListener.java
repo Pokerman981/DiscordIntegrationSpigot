@@ -4,8 +4,8 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/23/20, 2:05 PM
- * File: DeluxeChatListener.java
+ * File Last Modified: 8/23/20, 3:30 PM
+ * File: MCDeluxeChatListener.java
  * Project: DiscordBotSpigot
  */
 
@@ -15,7 +15,7 @@ import me.clip.deluxechat.events.DeluxeChatEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class DeluxeChatListener implements Listener {
+public class MCDeluxeChatListener implements Listener {
 
     @EventHandler
     public void onChat(DeluxeChatEvent event) {
