@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/23/20, 3:19 PM
+ * File Last Modified: 8/24/20, 5:42 PM
  * File: Utils.java
  * Project: DiscordBotSpigot
  */
@@ -68,6 +68,13 @@ public class Utils {
         CachedMetaData metaData = user.getCachedData().getMetaData(queryOptions);
 
         return metaData.getMetaValue(key);
+    }
+
+    public static String getPrefix(Player player) {
+        if (!player.isOnline()) return null;
+
+        User user = LuckPermsProvider.get().getUserManager().getUser(player.getUniqueId());
+        return LuckPermsProvider.get().getGroupManager().getGroup(user.getPrimaryGroup()).getDisplayName();
     }
 
 }
