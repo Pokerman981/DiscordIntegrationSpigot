@@ -4,13 +4,15 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 1:36 AM
+ * File Last Modified: 8/24/20, 4:46 PM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
 
 package me.pokerman981.DiscordBotSpigot;
 
+import me.pokerman981.DiscordBotSpigot.commands.MCLinkCommand;
+import me.pokerman981.DiscordBotSpigot.listeners.DCLinkListener;
 import me.pokerman981.DiscordBotSpigot.listeners.DCMessageListener;
 import me.pokerman981.DiscordBotSpigot.listeners.MCDeluxeChatListener;
 import net.dv8tion.jda.api.JDA;
@@ -33,10 +35,11 @@ public class Main extends JavaPlugin {
     public static ConfigAccessor config, linkData, accounts;
 
 
-    protected static JDA jda;
+    public static JDA jda;
     public static List<TextChannel> textChannels = new ArrayList<>();
     public static Map<String, Object> messages;
-    protected static Guild guild;
+    public static List<String> rolesToAssignOnLink;
+    public static Guild guild;
 
     @Override
     public void onEnable() {
@@ -48,8 +51,9 @@ public class Main extends JavaPlugin {
         loadConfigurationValues();
         Bukkit.getLogger().info("[DiscordBotSpigot] Loaded configuration values.");
 
+        registerCommands();
         registerListeners();
-        Bukkit.getLogger().info("[DiscordBotSpigot] Registered Listeners.");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Registered Listeners & Commands.");
 
         try {
             loadDiscordBot();
@@ -88,12 +92,18 @@ public class Main extends JavaPlugin {
         Validate.notNull(token);
 
         Main.jda = JDABuilder.createDefault(token)
-                .addEventListeners(new DCMessageListener())
+                .addEventListeners(
+                        new DCMessageListener(),
+                        new DCLinkListener())
                 .build().awaitReady();
     }
 
     private void registerListeners() {
         Bukkit.getServer().getPluginManager().registerEvents(new MCDeluxeChatListener(), instance);
+    }
+
+    private void registerCommands() {
+        this.getCommand("discord").setExecutor(new MCLinkCommand());
     }
 
     private void loadConfigurationFiles() {
@@ -102,10 +112,14 @@ public class Main extends JavaPlugin {
         Main.accounts = new ConfigAccessor(Main.instance, "accounts.yml");
 
         Main.config.saveDefaultConfig();
+        Main.linkData.saveDefaultConfig();
+        Main.accounts.saveDefaultConfig();
+
     }
 
     private void loadConfigurationValues() {
         messages = Validate.notNull(Main.config.getConfig().getConfigurationSection("messages").getValues(false));
+        rolesToAssignOnLink = Validate.notNull(Main.config.getConfig().getStringList("roles-to-assign-on-link"));
     }
 
     @Override
