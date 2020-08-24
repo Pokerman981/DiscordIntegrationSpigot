@@ -5,7 +5,7 @@
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~
-  ~ File Last Modified: 8/23/20, 1:00 PM
+  ~ File Last Modified: 8/24/20, 12:40 AM
   ~ File: pom.xml
   ~ Project: DiscordBotSpigot
   -->
@@ -38,20 +38,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.6</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>net.dv8tion:JDA</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

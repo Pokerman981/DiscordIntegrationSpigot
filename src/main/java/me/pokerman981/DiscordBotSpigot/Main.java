@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/23/20, 10:04 PM
+ * File Last Modified: 8/24/20, 1:36 AM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
@@ -15,6 +15,7 @@ import me.pokerman981.DiscordBotSpigot.listeners.DCMessageListener;
 import me.pokerman981.DiscordBotSpigot.listeners.MCDeluxeChatListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.apache.commons.lang3.Validate;
@@ -42,51 +43,53 @@ public class Main extends JavaPlugin {
         Main.instance = this;
 
         loadConfigurationFiles();
-        Bukkit.getLogger().info("Loaded configuration files.");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Loaded configuration files.");
 
         loadConfigurationValues();
-        Bukkit.getLogger().info("Loaded configuration values.");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Loaded configuration values.");
 
         registerListeners();
-        Bukkit.getLogger().info("Registered Listeners.");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Registered Listeners.");
 
         try {
             loadDiscordBot();
-        } catch (LoginException e) {
+        } catch (LoginException | InterruptedException e) {
             e.printStackTrace();
         }
-        Bukkit.getLogger().info("Loaded Discord Bot.");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Loaded Discord Bot.");
 
         loadChannels();
+
 
 
     }
 
     private void loadChannels() { // TODO Make this more dynamic
-        String guild = Validate.notNull(Main.config.getConfig().getString("guilds.guild"), "Unable to find guild id"),
-                global = Validate.notNull(Main.config.getConfig().getString("channels.global-channel"), "Unable to find global channel id"),
-                staff = Validate.notNull(Main.config.getConfig().getString("channels.staff-channel"), "Unable to find staff channel id");
+        String guild = Validate.notNull(Main.config.getConfig().getConfigurationSection("guilds").getString("guild"), "Unable to find guild id"),
+                global = Validate.notNull(Main.config.getConfig().getConfigurationSection("channels").getString("global-channel"), "Unable to find global channel id"),
+                staff = Validate.notNull(Main.config.getConfig().getConfigurationSection("channels").getString("staff-channel"), "Unable to find staff channel id");
+
 
         Guild loadGuild = Validate.notNull(Main.jda.getGuildById(guild), "Failed to find specified guild");
-        TextChannel loadGlobalChannel = Validate.notNull(loadGuild.getTextChannelById(staff), "Failed to find specified global channel");
-        TextChannel loadStaffChannel = Validate.notNull(loadGuild.getTextChannelById(staff), "Failed to find specified staff channel");
+        TextChannel loadGlobalChannel = (TextChannel) Validate.notNull(Main.jda.getGuildChannelById(ChannelType.TEXT, global), "Failed to find specified global channel");
+        TextChannel loadStaffChannel = (TextChannel) Validate.notNull(Main.jda.getGuildChannelById(ChannelType.TEXT, staff), "Failed to find specified staff channel");
 
-        Bukkit.getLogger().info("Loaded guild " + loadGuild.getName());
-        Bukkit.getLogger().info("Loaded global channel: " + loadGlobalChannel.getName() + " (" + global + ")");
-        Bukkit.getLogger().info("Loaded staff channel: " + loadStaffChannel.getName() + " (" + staff + ")");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Loaded guild " + loadGuild.getName());
+        Bukkit.getLogger().info("[DiscordBotSpigot] Loaded global channel: " + loadGlobalChannel.getName() + " (" + global + ")");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Loaded staff channel: " + loadStaffChannel.getName() + " (" + staff + ")");
 
         Main.guild = loadGuild;
         Main.textChannels.add(loadGlobalChannel);
         Main.textChannels.add(loadStaffChannel);
     }
 
-    private void loadDiscordBot() throws LoginException {
+    private void loadDiscordBot() throws LoginException, InterruptedException {
         String token = Main.config.getConfig().getString("token");
         Validate.notNull(token);
 
         Main.jda = JDABuilder.createDefault(token)
                 .addEventListeners(new DCMessageListener())
-                .build();
+                .build().awaitReady();
     }
 
     private void registerListeners() {
@@ -97,6 +100,8 @@ public class Main extends JavaPlugin {
         Main.config = new ConfigAccessor(Main.instance, "config.yml");
         Main.linkData = new ConfigAccessor(Main.instance, "linkData.yml");
         Main.accounts = new ConfigAccessor(Main.instance, "accounts.yml");
+
+        Main.config.saveDefaultConfig();
     }
 
     private void loadConfigurationValues() {
@@ -106,7 +111,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Main.jda.shutdown();
-        Bukkit.getLogger().info("Shutting down discord bot");
+        Bukkit.getLogger().info("[DiscordBotSpigot] Shutting down discord bot");
 
     }
 
