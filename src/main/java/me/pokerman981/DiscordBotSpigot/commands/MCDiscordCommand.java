@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 8:02 PM
+ * File Last Modified: 8/24/20, 8:18 PM
  * File: MCDiscordCommand.java
  * Project: DiscordBotSpigot
  */
@@ -32,7 +32,7 @@ public class MCDiscordCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if (strings.length <= 0) {
-            Utils.msg(commandSender, "&aUsage /discord (link|invite)");
+            Utils.msg(commandSender, (String) Main.messages.getOrDefault("usage", "Config Error!"));
             return true;
         }
 

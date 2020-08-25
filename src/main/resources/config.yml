@@ -9,6 +9,7 @@ messages:
   linked: "&9&lDISCORD &8»&r &7Your Minecraft account has been linked to Discord! &8(&b&lUSER:&b %username%&r &8/ &b&lID:&b %id%&8)"
   invite: "&9&lDISCORD &8»&r &7Join us on Discord at &b%invite%&r &7For command help, do &b&o/discord"
   invite-url: "https://discord.chaoscraft.net"
+  usage: "&aUsage: /discord (link|invite)"
 
 guilds:
   guild: "692809364314128394"

@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 8:08 PM
+ * File Last Modified: 8/24/20, 8:16 PM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
@@ -33,7 +33,6 @@ public class Main extends JavaPlugin {
 
     public static Main instance;
     public static ConfigAccessor config, linkData, accounts;
-
 
     public static JDA jda;
     public static List<TextChannel> textChannels = new ArrayList<>();
@@ -70,7 +69,6 @@ public class Main extends JavaPlugin {
         String guild = Validate.notNull(Main.config.getConfig().getConfigurationSection("guilds").getString("guild"), "Unable to find guild id"),
                 global = Validate.notNull(Main.config.getConfig().getConfigurationSection("channels").getString("global-channel"), "Unable to find global channel id"),
                 staff = Validate.notNull(Main.config.getConfig().getConfigurationSection("channels").getString("staff-channel"), "Unable to find staff channel id");
-
 
         Guild loadGuild = Validate.notNull(Main.jda.getGuildById(guild), "Failed to find specified guild");
         TextChannel loadGlobalChannel = (TextChannel) Validate.notNull(Main.jda.getGuildChannelById(ChannelType.TEXT, global), "Failed to find specified global channel");
@@ -124,7 +122,6 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         Main.jda.shutdown();
         Bukkit.getLogger().info("[DiscordBotSpigot] Shutting down discord bot");
-
     }
 
 }
