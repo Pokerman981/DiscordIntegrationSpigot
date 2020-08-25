@@ -4,14 +4,14 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 6:12 PM
+ * File Last Modified: 8/24/20, 7:32 PM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
 
 package me.pokerman981.DiscordBotSpigot;
 
-import me.pokerman981.DiscordBotSpigot.commands.MCLinkCommand;
+import me.pokerman981.DiscordBotSpigot.commands.MCDiscordCommand;
 import me.pokerman981.DiscordBotSpigot.listeners.DCLinkListener;
 import me.pokerman981.DiscordBotSpigot.listeners.DCMessageListener;
 import me.pokerman981.DiscordBotSpigot.listeners.MCDeluxeChatListener;
@@ -104,7 +104,7 @@ public class Main extends JavaPlugin {
     }
 
     private void registerCommands() {
-        this.getCommand("discord").setExecutor(new MCLinkCommand());
+        this.getCommand("discord").setExecutor(new MCDiscordCommand());
     }
 
     private void loadConfigurationFiles() {

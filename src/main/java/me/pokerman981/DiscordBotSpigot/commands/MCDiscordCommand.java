@@ -4,8 +4,8 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 4:59 PM
- * File: MCLinkCommand.java
+ * File Last Modified: 8/24/20, 8:02 PM
+ * File: MCDiscordCommand.java
  * Project: DiscordBotSpigot
  */
 
@@ -14,6 +14,10 @@ package me.pokerman981.DiscordBotSpigot.commands;
 import me.pokerman981.DiscordBotSpigot.Main;
 import me.pokerman981.DiscordBotSpigot.Utils;
 import net.dv8tion.jda.api.entities.User;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,12 +27,29 @@ import org.bukkit.entity.Player;
 import java.time.Instant;
 import java.util.Random;
 
-public class MCLinkCommand implements CommandExecutor {
+public class MCDiscordCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if (strings.length <= 0) {
-            return false;
+            Utils.msg(commandSender, "&aUsage /discord (link|invite)");
+            return true;
+        }
+
+        if (strings[0].equalsIgnoreCase("invite")) {
+            String messageToSend = (String) Main.messages.getOrDefault("invite", "Config Error!");
+            String urlToSend = (String) Main.messages.getOrDefault("invite-url", "Config Error!");
+
+            TextComponent invite = new TextComponent(Utils.getText(
+                    messageToSend.replaceAll("%invite%", urlToSend)));
+
+            ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, urlToSend);
+            HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.getText("&bClick Join!")).create());
+
+            invite.setClickEvent(clickEvent);
+            invite.setHoverEvent(hoverEvent);
+
+            commandSender.sendMessage(invite);
         }
 
         if (strings[0].equalsIgnoreCase("link")) {
@@ -66,6 +87,7 @@ public class MCLinkCommand implements CommandExecutor {
                 return true;
             }
 
+            // Lol could just not format the string to not have leading zeros oh well
             String pin = String.format("%06d", new Random().nextInt(1000000)).replaceAll("^0+(?!$)", "");
 
             ConfigurationSection userLinkingData = Main.linkData.getConfig().createSection("linkData." + player.getUniqueId().toString());
@@ -79,6 +101,6 @@ public class MCLinkCommand implements CommandExecutor {
             Utils.msg(player, ((String) Main.messages.getOrDefault("linking", "Config Error!")).replaceAll("%pin%", pin));
         }
 
-        return false;
+        return true;
     }
 }
