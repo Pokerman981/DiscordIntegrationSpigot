@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 8:16 PM
+ * File Last Modified: 8/25/20, 3:25 PM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
@@ -12,6 +12,7 @@
 package me.pokerman981.DiscordBotSpigot;
 
 import me.pokerman981.DiscordBotSpigot.commands.MCDiscordCommand;
+import me.pokerman981.DiscordBotSpigot.listeners.DCGuildLeaveListener;
 import me.pokerman981.DiscordBotSpigot.listeners.DCLinkListener;
 import me.pokerman981.DiscordBotSpigot.listeners.DCMessageListener;
 import me.pokerman981.DiscordBotSpigot.listeners.MCDeluxeChatListener;
@@ -20,14 +21,19 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Main extends JavaPlugin {
 
@@ -39,6 +45,8 @@ public class Main extends JavaPlugin {
     public static Map<String, Object> messages;
     public static List<String> rolesToAssignOnLink;
     public static Map<String, Object> donatorRolesToAssign;
+    public static List<String> commandsToExecuteOnLink;
+    public static List<String> commandsToExecuteOnUnLink;
     public static Guild guild;
 
     @Override
@@ -88,10 +96,14 @@ public class Main extends JavaPlugin {
         Validate.notNull(token);
 
         Main.jda = JDABuilder.createDefault(token)
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setChunkingFilter(ChunkingFilter.ALL)
+                .setEnabledIntents(Arrays.stream(GatewayIntent.values()).collect(Collectors.toList()))
                 .addEventListeners(
                         new DCMessageListener(),
-                        new DCLinkListener())
-                .build().awaitReady();
+                        new DCLinkListener(),
+                        new DCGuildLeaveListener())
+                .build().awaitStatus(JDA.Status.CONNECTED);
     }
 
     private void registerListeners() {
@@ -116,11 +128,16 @@ public class Main extends JavaPlugin {
         messages = Validate.notNull(Main.config.getConfig().getConfigurationSection("messages").getValues(false));
         rolesToAssignOnLink = Validate.notNull(Main.config.getConfig().getStringList("roles-to-assign-on-link"));
         donatorRolesToAssign = Validate.notNull(Main.config.getConfig().getConfigurationSection("donator-roles-to-assign").getValues(false));
+        commandsToExecuteOnLink = Validate.notNull(Main.config.getConfig().getStringList("commands-to-execute-on-link"));
+        commandsToExecuteOnUnLink = Validate.notNull(Main.config.getConfig().getStringList("commands-to-execute-on-unlink"));
     }
 
     @Override
     public void onDisable() {
+        Main.jda.getHttpClient().connectionPool().evictAll();
+        Main.jda.getHttpClient().dispatcher().executorService().shutdown();
         Main.jda.shutdown();
+
         Bukkit.getLogger().info("[DiscordBotSpigot] Shutting down discord bot");
     }
 

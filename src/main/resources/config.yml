@@ -19,6 +19,9 @@ channels:
   staff-channel: "731570271852691508"
 
 roles-to-assign-on-link: ["707393522927534091"]
+commands-to-execute-on-link: ["lp user %player% p set essentials.kits.dailyreward", "lp user %player% p set essentials.kits.weeklyreward", "lp user %player% p set essentials.kits.monthlyreward"]
+commands-to-execute-on-unlink: ["lp user %player% p unset essentials.kits.dailyreward", "lp user %player% p unset unessentials.kits.weeklyreward", "lp user %player% p unset essentials.kits.monthlyreward"]
+
 donator-roles-to-assign:
   Immortal: "746610488384684032"
   Overlord: "746610627925246033"

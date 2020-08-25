@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 6:12 PM
+ * File Last Modified: 8/24/20, 11:41 PM
  * File: DCLinkListener.java
  * Project: DiscordBotSpigot
  */
@@ -84,6 +84,10 @@ public class DCLinkListener extends ListenerAdapter {
             if (Main.donatorRolesToAssign.containsKey(group.getDisplayName())) {
                 Main.guild.addRoleToMember(userID, Objects.requireNonNull(Main.guild.getRoleById((String) Main.donatorRolesToAssign.get(group.getDisplayName())))).queue();
             }
+
+            Bukkit.getScheduler()
+                    .runTask(Main.instance, () -> Main.commandsToExecuteOnLink
+                            .forEach(command1 -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command1.replaceAll("%player%", player.getName()))));
 
         }
 
