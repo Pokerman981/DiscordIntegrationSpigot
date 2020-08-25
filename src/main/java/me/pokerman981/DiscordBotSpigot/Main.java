@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 4:46 PM
+ * File Last Modified: 8/24/20, 6:12 PM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
@@ -39,6 +39,7 @@ public class Main extends JavaPlugin {
     public static List<TextChannel> textChannels = new ArrayList<>();
     public static Map<String, Object> messages;
     public static List<String> rolesToAssignOnLink;
+    public static Map<String, Object> donatorRolesToAssign;
     public static Guild guild;
 
     @Override
@@ -120,6 +121,7 @@ public class Main extends JavaPlugin {
     private void loadConfigurationValues() {
         messages = Validate.notNull(Main.config.getConfig().getConfigurationSection("messages").getValues(false));
         rolesToAssignOnLink = Validate.notNull(Main.config.getConfig().getStringList("roles-to-assign-on-link"));
+        donatorRolesToAssign = Validate.notNull(Main.config.getConfig().getConfigurationSection("donator-roles-to-assign").getValues(false));
     }
 
     @Override

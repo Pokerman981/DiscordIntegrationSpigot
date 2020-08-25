@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 4:57 PM
+ * File Last Modified: 8/24/20, 6:12 PM
  * File: DCLinkListener.java
  * Project: DiscordBotSpigot
  */
@@ -16,6 +16,9 @@ import me.pokerman981.DiscordBotSpigot.Utils;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.group.Group;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -72,6 +75,16 @@ public class DCLinkListener extends ListenerAdapter {
             Main.linkData.save();
 
             Main.rolesToAssignOnLink.forEach(roleID -> Main.guild.addRoleToMember(userID, Objects.requireNonNull(Main.guild.getRoleById(roleID))).queue());
+
+            User user = LuckPermsProvider.get().getUserManager().getUser(UUID.fromString((String) linkData.get(String.valueOf(pin))));
+            assert user != null;
+
+            Group group = LuckPermsProvider.get().getGroupManager().getGroup(user.getPrimaryGroup());
+
+            if (Main.donatorRolesToAssign.containsKey(group.getDisplayName())) {
+                Main.guild.addRoleToMember(userID, Objects.requireNonNull(Main.guild.getRoleById((String) Main.donatorRolesToAssign.get(group.getDisplayName())))).queue();
+            }
+
         }
 
     }
