@@ -5,7 +5,7 @@ messages:
   mc-to-discord: "**[%prefix%] %name%**: %message%"
   already-linked: "&cYou have already linked your account to %discordname%!"
   already-linking: "&cYou have already requested your custom pin! %pin%"
-  linking: "&9&lDISCORD &8»&r &7Your link pin is &b%pin%&7! Message the &b&lChaosCraft#8830&7 on Discord containing just this code as the message to link your account!"
+  linking: "&9&lDISCORD &8»&r &7Your link pin is &b%pin%&7! Message the &b&lChaosCraft#8830&7 bot on Discord containing just this code as the message to link your account!"
   linked: "&9&lDISCORD &8»&r &7Your Minecraft account has been linked to Discord! &8(&b&lUSER:&b %username%&r &8/ &b&lID:&b %id%&8)"
   invite: "&9&lDISCORD &8»&r &7Join us on Discord at &b%invite%&r &7For command help, do &b&o/discord"
   invite-url: "https://discord.chaoscraft.org"
