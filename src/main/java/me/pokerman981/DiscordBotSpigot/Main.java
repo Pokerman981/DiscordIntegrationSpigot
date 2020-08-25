@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 7:32 PM
+ * File Last Modified: 8/24/20, 8:08 PM
  * File: Main.java
  * Project: DiscordBotSpigot
  */
@@ -64,9 +64,6 @@ public class Main extends JavaPlugin {
         Bukkit.getLogger().info("[DiscordBotSpigot] Loaded Discord Bot.");
 
         loadChannels();
-
-
-
     }
 
     private void loadChannels() { // TODO Make this more dynamic
@@ -115,7 +112,6 @@ public class Main extends JavaPlugin {
         Main.config.saveDefaultConfig();
         Main.linkData.saveDefaultConfig();
         Main.accounts.saveDefaultConfig();
-
     }
 
     private void loadConfigurationValues() {
