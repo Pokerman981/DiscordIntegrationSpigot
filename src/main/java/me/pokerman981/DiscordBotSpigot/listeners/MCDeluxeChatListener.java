@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/24/20, 5:33 PM
+ * File Last Modified: 8/25/20, 11:20 PM
  * File: MCDeluxeChatListener.java
  * Project: DiscordBotSpigot
  */
@@ -14,6 +14,7 @@ package me.pokerman981.DiscordBotSpigot.listeners;
 import me.clip.deluxechat.events.DeluxeChatEvent;
 import me.pokerman981.DiscordBotSpigot.Main;
 import me.pokerman981.DiscordBotSpigot.Utils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -29,7 +30,7 @@ public class MCDeluxeChatListener implements Listener {
                 .replaceAll("%name%", event.getPlayer().getName())
                 .replaceAll("%message%", event.getChatMessage());
 
-        Main.textChannels.forEach(textChannel -> textChannel.sendMessage(messageToSend).queue());
+        Main.textChannels.forEach(textChannel -> textChannel.sendMessage(StringEscapeUtils.escapeJava(messageToSend)).queue());
 
     }
 
