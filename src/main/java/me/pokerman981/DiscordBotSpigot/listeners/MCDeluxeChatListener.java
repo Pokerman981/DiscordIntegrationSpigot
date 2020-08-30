@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/30/20, 2:09 AM
+ * File Last Modified: 8/30/20, 2:27 AM
  * File: MCDeluxeChatListener.java
  * Project: DiscordBotSpigot
  */
@@ -28,13 +28,14 @@ public class MCDeluxeChatListener implements Listener {
                 .replaceAll("%prefix%", Objects.requireNonNull(Utils.getPrefix(event.getPlayer())))
                 .replaceAll("%name%", event.getPlayer().getName())
                 .replaceAll("%message%", event.getChatMessage())
-                .replaceAll("\t", "\\t")
-                .replaceAll("\b", "\\b")
-                .replaceAll("\n", "\\n")
-                .replaceAll("\r", "\\r")
-                .replaceAll("\f", "\\f")
-                .replaceAll("'", "\\'")
-                .replaceAll("\"", "\\\"");
+                .replace("\\", "\\\\")
+                .replace("\t", "\\t")
+                .replace("\b", "\\b")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\f", "\\f")
+                .replace("'", "\\'")
+                .replace("\"", "\\\"");
 
         Main.textChannels.forEach(textChannel -> textChannel.sendMessage(messageToSend).queue());
 

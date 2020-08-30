@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/30/20, 2:10 AM
+ * File Last Modified: 8/30/20, 2:27 AM
  * File: DCMessageListener.java
  * Project: DiscordBotSpigot
  */
@@ -44,13 +44,15 @@ public class DCMessageListener extends ListenerAdapter {
                     .replaceAll("%message%", event.getMessage().getContentDisplay());
         }
 
-        Bukkit.broadcastMessage(Utils.getText(messageToSend.replaceAll("\t", "\\t")
-                .replaceAll("\b", "\\b")
-                .replaceAll("\n", "\\n")
-                .replaceAll("\r", "\\r")
-                .replaceAll("\f", "\\f")
-                .replaceAll("'", "\\'")
-                .replaceAll("\"", "\\\"")));
+        Bukkit.broadcastMessage(Utils.getText(messageToSend
+                .replace("\\", "\\\\")
+                .replace("\t", "\\t")
+                .replace("\b", "\\b")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\f", "\\f")
+                .replace("'", "\\'")
+                .replace("\"", "\\\"")));
     }
 
 }
