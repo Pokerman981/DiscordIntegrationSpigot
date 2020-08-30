@@ -4,7 +4,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  *
- * File Last Modified: 8/25/20, 11:20 PM
+ * File Last Modified: 8/30/20, 2:10 AM
  * File: DCMessageListener.java
  * Project: DiscordBotSpigot
  */
@@ -17,7 +17,6 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.Bukkit;
 
 import java.util.UUID;
@@ -45,7 +44,13 @@ public class DCMessageListener extends ListenerAdapter {
                     .replaceAll("%message%", event.getMessage().getContentDisplay());
         }
 
-        Bukkit.broadcastMessage(Utils.getText(StringEscapeUtils.escapeJava(messageToSend)));
+        Bukkit.broadcastMessage(Utils.getText(messageToSend.replaceAll("\t", "\\t")
+                .replaceAll("\b", "\\b")
+                .replaceAll("\n", "\\n")
+                .replaceAll("\r", "\\r")
+                .replaceAll("\f", "\\f")
+                .replaceAll("'", "\\'")
+                .replaceAll("\"", "\\\"")));
     }
 
 }
