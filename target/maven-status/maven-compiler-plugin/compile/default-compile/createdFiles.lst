@@ -1,0 +1,8 @@
+me\pokerman981\DiscordBotSpigot\Main.class
+me\pokerman981\DiscordBotSpigot\Utils.class
+me\pokerman981\DiscordBotSpigot\listeners\DCMessageListener.class
+me\pokerman981\DiscordBotSpigot\listeners\MCDeluxeChatListener.class
+me\pokerman981\DiscordBotSpigot\commands\MCDiscordCommand.class
+me\pokerman981\DiscordBotSpigot\ConfigAccessor.class
+me\pokerman981\DiscordBotSpigot\listeners\DCGuildLeaveListener.class
+me\pokerman981\DiscordBotSpigot\listeners\DCLinkListener.class
